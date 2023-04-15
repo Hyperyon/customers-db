@@ -1,12 +1,13 @@
 <script type="text/javascript">
 	import Client from '../lib/components/Client.svelte'
 	import clientService from '../lib/shared/ClientService'
-
 	let customers = []
+	let nb_customers = 0
 
-	clientService.read().then(arr=>arr.forEach(element=>{
-		customers.push(element)
-	}))
+	clientService.read().then(arr=>{
+		arr.forEach(element=>{customers.push(element)})
+		nb_customers = customers.length
+	})
 	
 	function addCustomer(e) {
 		let input = e.detail
@@ -19,7 +20,10 @@
 
 			customers = new Set([ ...customers])
 			customers = [...customers]
-			console.log(clientService.save(customers))
+			if (customers.length != nb_customers){
+				clientService.save(customers)
+				nb_customers = customers.length
+			}
 		}
 	}
 

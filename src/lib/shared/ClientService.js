@@ -1,7 +1,7 @@
-async function save (expenses) {
+async function save (names) {
 	const res = await fetch('http://192.168.1.73:9997/lapost', {
 		method: 'POST',
-		body: JSON.stringify(expenses)
+		body: JSON.stringify(names)
 	})
 }
 

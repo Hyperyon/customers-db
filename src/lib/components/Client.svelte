@@ -8,21 +8,18 @@ const digit = ['①','②','③','④','⑤','⑥','⑦','⑧','⑨']
 let newCustomer = ''
 let lines = 0
 let input = ''
-let is_submit = false
 
 function saveCustomer() {
 	sortAndCapitalize()
-	if(!is_submit){
+    let textarea = document.getElementsByTagName("textarea")[0].value;
+	if( !digit.some(str => textarea.includes(str)) )
 		dispatch('adding', newCustomer)
-		is_submit = true
-	}
-// 	reset()
+	
 }
 function reset(){
 	newCustomer = ''
 	input = ''
 	lines = 0
-	is_submit = false
 }
   let query = ''
   let options = { keys: ["payload"] };

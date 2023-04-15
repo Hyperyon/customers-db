@@ -8,22 +8,30 @@ const digit = ['①','②','③','④','⑤','⑥','⑦','⑧','⑨']
 let newCustomer = ''
 let lines = 0
 let input = ''
+let is_submit = false
 
 function saveCustomer() {
-	console.log('entering function')
 	sortAndCapitalize()
-	dispatch('adding', newCustomer)
+	if(!is_submit){
+		dispatch('adding', newCustomer)
+		is_submit = true
+	}
 // 	reset()
 }
 function reset(){
 	newCustomer = ''
 	input = ''
 	lines = 0
+	is_submit = false
 }
   let query = ''
   let options = { keys: ["payload"] };
   let data = []
   let formatted = [];
+
+$:if(formatted.length > 8)
+	formatted = formatted.slice(0,8)
+	
 
 function countLines() {
 	let text = input
@@ -53,7 +61,13 @@ function sortAndCapitalize() {
 		var re = new RegExp(i+1, "g");
 		input = input.replace(re, digit[i])
 	}
-	// navigator.clipboard.writeText(input)
+	copyTextarea()
+}
+
+function copyTextarea() {
+    let textarea = document.getElementsByTagName("textarea")[0];
+    textarea.select();
+    document.execCommand("copy");
 }
 
 function add(tab) {
@@ -62,6 +76,7 @@ function add(tab) {
 	input = input.split('\n');input.pop()
 	name = (input.length) ? '\n'+name+'\n':name+'\n'
 	input = input.join('\n')+name
+	document.querySelector('[autofocus]').focus();
 
 	countLines()
 }
@@ -108,6 +123,7 @@ width: 6rem;
 	<textarea cols="30" rows="15" 
 	bind:value={input}
 	on:input={countLines}
+	autofocus="true" 
 	/>
 	<div id="suggestion-liste">
 

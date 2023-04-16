@@ -58,13 +58,18 @@ function sortAndCapitalize() {
 		var re = new RegExp(i+1, "g");
 		input = input.replace(re, digit[i])
 	}
-	copyTextarea()
+
+	// console.log([input])
+	copy(input)
 }
 
-function copyTextarea() {
-    let textarea = document.getElementsByTagName("textarea")[0];
-    textarea.select();
+function copy(text) {
+    let dummy = document.createElement("textarea");
+    document.body.appendChild(dummy);
+    dummy.value = text;
+    dummy.select();
     document.execCommand("copy");
+    document.body.removeChild(dummy);
 }
 
 function add(tab) {

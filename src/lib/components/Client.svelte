@@ -20,6 +20,8 @@ function reset(){
 	input = ''
 	lines = 0
     tab = []
+    query = ''
+    document.getElementById('saisie').focus()
 }
   let query = ''
   let options = { keys: ["payload"] }
@@ -67,6 +69,8 @@ function add(line,autocomplete = false) {
     tab = [...tab,query]
     query = ''
     lines = tab.length
+    document.getElementById('saisie').focus()
+
 }
 
 let tab = []
@@ -87,18 +91,37 @@ function update_data(e) {
     query = new_data
 }
 
+
+function remove_last(){
+    tab.pop()
+    console.tab
+    tab = [...tab]
+    lines = tab.length
+}
+
 </script>
 
 <svelte:window on:keydown={oui}/>
 <Fuzzy {query} {data} {options} bind:formatted />
 
+<div id="head">
+ <input id="saisie"type="text" 
+ on:keydown={oui} 
+ bind:value={query} autofocus >
+<button on:click={saveCustomer}>send</button>
+<input type="button" value={lines} style="width:40px" on:click={remove_last}>
+<input type="button" value="reset" on:click={reset}>
+    
+</div>
+
+<div id="container"><div id="centered">
 {#each tab as item}
     <Line bind:content={item}/>
 {/each}
 
- <input id="saisie"type="text" 
+<!--  <input id="saisie"type="text" 
  on:keydown={oui} 
- bind:value={query} autofocus >
+ bind:value={query} autofocus > -->
 
 <div id="liste">
 {#each formatted as item}
@@ -116,16 +139,28 @@ function update_data(e) {
 {/each}
 </div>
 
+
+</div>
+
+
+
+</div>
 <br>
-<button on:click={saveCustomer}>send</button>
-<input type="button" value={lines}>
-<input type="button" value="reset" on:click={reset}>
+
+
+
 
 <style type="text/css">
 #saisie, #saisie:focus, #saisie:hover{
         background: orange;
         border: none;
         min-width: 20px;
+        padding-left: 7px;
+    }
+
+    #head{
+        position: absolute;
+        top:70px;
     }
 
     #suggestion:hover{
@@ -136,5 +171,24 @@ function update_data(e) {
     #liste{
         background: #efefef;
         width: 260px;
+        position: fixed;
+        top:95px;
+        }
+
+        #container{
+            position: absolute;
+            top:100px;
+/*            height: 500px;
+            position: relative;
+            border: 3px solid green;
+            margin: auto;
+            width: 80%;*/
+        }
+
+        #centered{
+/*            margin:0;
+            position: fixed;
+            bottom: 50%;
+            transform: translateY(-50%);*/
         }
 </style>
